@@ -6,7 +6,6 @@ import inspect
 
 
 def open_browser(browser_name):
-    return
     pass
 
 
@@ -18,7 +17,7 @@ def find_registration_button_on_login_page(page_url, button_text):
     pass
 
 
-def print_inf_fnc(fnc):
+def print_inf_fnc(fnc_name):
     for element in fnc:
         print("имя функции: " + element.__name__)
         print("атрибуты функции: " + str(inspect.signature(element))[1:-1])
