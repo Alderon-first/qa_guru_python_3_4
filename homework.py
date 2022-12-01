@@ -4,6 +4,7 @@
 # Подсказка: Имя функции можно получить с помощью func.__name__
 import traceback
 import inspect
+import struct
 
 """
 def print_inf(имя исходной функции, аргументы исходной функции /*args/)
@@ -22,34 +23,37 @@ def исходная функия (аргумент)
     "Аргументы функции: аргумент: 111
 """
 
-
+print("---------")
 def print_inf_fnc(search_arg, *args):
-    search_arg = search_arg.__name__.replace("_", " ").upper() + ":"
-    #не совсем то. Нужна конструкция, которая вернет "аргумент:значение"
-    print("Имя функции:знаечние аргумента  -- "+ search_arg, *args)
-    #print(name_fnc)
-
+    i=0
+    search_arg = search_arg.__name__.capitalize().replace("_", " ") # получаю имя функции из параметра
+    print(f"Имя функции:  {search_arg}") # вывожу имя функции
+    print("Аргументы функции :")
+    while i < len(args): # беру список args  и по индексу вывожу парами. предполагаю, что список аргументов, взятый из
+        #из исходной функции всегда == по длинне списку знаечний агрументов, который я получаю как args,
+        # хотя второй это картеж (кажется), а первый - массив
+        print("--" + o[i] + ": " + args[i])
+        i += 1 # увеличиваю счетчик
+    print("-----------")
 
 def open_browser(browser_name):
-    global name_fnc
-    name_fnc = inspect.currentframe().f_code.co_name
-    #узнать имя текущей функции
-    #тут нужно получить список аргументов, но пока не понятно как
-    #print(name_fnc)
-    print_inf_fnc(open_browser, browser_name) #считаю неправильным для каждой функции задачать аргументы здесь руками
-    #А если их будет 500?? нужно подставить переменные вместо имени функции и списка аттребутов, чтобы они
-    # #запрашивались и подставлялись сами
-    #print_inf_fnc(name_fnc, browser_name)
-
-
+    global o
+    o = inspect.getfullargspec(open_browser).args #тут получаю список аргументов в виде массива
+    print_inf_fnc(open_browser, browser_name)
 
 
 def go_to_companyname_homepage(page_url):
-    pass
+    global o
+    o = inspect.getfullargspec(go_to_companyname_homepage).args  # тут получаю список аргументов в виде массива
+    print_inf_fnc(go_to_companyname_homepage, page_url)
 
 
-def find_registration_button_on_login_page(page_url, button_text):
-    pass
+def find_registration_button_on_login_page(page_url, button_text, test='test1'):
+    global o
+    o = inspect.getfullargspec(find_registration_button_on_login_page).args # тут получаю список аргументов в виде массива
+    print_inf_fnc(go_to_companyname_homepage, page_url, button_text)
+
+
 #-----
 #работает, но не принято преподавателем
 #def print_inf_fnc(fnc_name):
@@ -61,6 +65,7 @@ def find_registration_button_on_login_page(page_url, button_text):
 #fnc = [find_registration_button_on_login_page, open_browser, go_to_companyname_homepage]
 #print_inf_fnc(fnc)
 #-----
+
 open_browser(browser_name="Chrome")
-go_to_companyname_homepage(page_url="url")
-find_registration_button_on_login_page(page_url="1", button_text="2")
+go_to_companyname_homepage(page_url="https://github.com")
+find_registration_button_on_login_page(page_url="https://www.google.ru/", button_text="test")
