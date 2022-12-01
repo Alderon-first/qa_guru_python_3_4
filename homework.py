@@ -15,40 +15,36 @@ import inspect
 print("---------")
 
 
-def print_inf_fnc(search_arg, *args):
+def print_inf_fnc(search_arg, arg_list, *args):
     i = 0
     search_arg = search_arg.__name__.capitalize().replace("_", " ")
     # получаю имя функции из параметра
     print(f"Имя функции:  {search_arg}")  # вывожу имя функции
     print("Аргументы функции :")
-    while i < len(args):
+    for arg in args:
         # беру список args  и по индексу вывожу парами. предполагаю, что список аргументов, взятый из
         # из исходной функции всегда == по длинне списку знаечний агрументов, который я получаю как args,
         # хотя второй это картеж (кажется), а первый - массив
-        print("--" + o[i] + ": " + args[i])
+        print("--" + arg_list[i] + ": " + arg)
         i += 1  # увеличиваю счетчик
     print("-----------")
 
 
 def open_browser(browser_name):
-    global o
-    # глобальная нужна, чтобы значение прокинуть глубже, в функцию принта
-    o = inspect.getfullargspec(open_browser).args  # тут получаю список аргументов в виде массива
-    print_inf_fnc(open_browser, browser_name)
+    arg_list = inspect.getfullargspec(open_browser).args  # тут получаю список аргументов в виде массива
+    print_inf_fnc(open_browser, arg_list, browser_name)
 
 
 def go_to_companyname_homepage(page_url):
-    global o
-    o = inspect.getfullargspec(go_to_companyname_homepage).args
+    arg_list = inspect.getfullargspec(go_to_companyname_homepage).args
     # тут получаю список аргументов в виде массива
-    print_inf_fnc(go_to_companyname_homepage, page_url)
+    print_inf_fnc(go_to_companyname_homepage, arg_list, page_url)
 
 
 def find_registration_button_on_login_page(page_url, button_text):
-    global o
-    o = inspect.getfullargspec(find_registration_button_on_login_page).args
+    arg_list = inspect.getfullargspec(find_registration_button_on_login_page).args
     # тут получаю список аргументов в виде массива
-    print_inf_fnc(go_to_companyname_homepage, page_url, button_text)
+    print_inf_fnc(go_to_companyname_homepage, arg_list, page_url, button_text)
 
 
 # -----
